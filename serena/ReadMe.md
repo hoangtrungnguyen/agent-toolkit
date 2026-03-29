@@ -70,3 +70,50 @@ claude mcp add -t sse serena http://localhost:9121/sse
 ```bash
 claude mcp add --scope user -t sse serena http://localhost:9121/sse
 ```
+
+---
+
+## 📇 5. Indexing & Re-indexing Projects
+
+### First-time indexing
+To index a project so Serena can provide symbolic analysis (functions, classes, dependencies), use the interactive helper:
+
+```bash
+sh index.sh
+```
+
+Select the project you want to index from the menu. This will scan all source files and build the symbol database.
+
+### Check index status
+To see which projects have been indexed:
+
+```bash
+sh check.sh
+```
+
+### Re-indexing after code changes
+Serena picks up most file changes automatically while the server is running. However, a full re-index is needed when:
+- **New files or directories** are added that weren't present during the initial index
+- A **new language** is added to the project
+- The index becomes **stale or corrupted**
+
+To re-index, simply run `sh index.sh` again and select the project, or run directly:
+
+```bash
+docker exec -it serena-container bash -c "export PATH=/usr/local/go/bin:/root/go/bin:\$PATH; source .venv/bin/activate && serena project index /workspace/<project-name>"
+```
+
+### Adding a new project
+1. Add a volume mount in `docker-compose.yaml`:
+   ```yaml
+   volumes:
+     - ../../my-new-project:/workspace/my-new-project
+   ```
+2. Restart the container:
+   ```bash
+   docker compose up -d --force-recreate
+   ```
+3. Index the new project:
+   ```bash
+   sh index.sh
+   ```
