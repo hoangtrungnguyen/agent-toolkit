@@ -59,8 +59,14 @@ docker compose down
 ---
 # CLI configuration
 
-## Per-project configuration  
-claude mcp add serena --url http://localhost:9121/sse  
-  
-## Global user-level configuration    
-claude mcp add --scope user serena --url http://localhost:9121/sse
+## Per-project configuration
+
+```bash
+claude mcp add -t sse serena http://localhost:9121/sse
+```
+
+## Global user-level configuration
+
+```bash
+claude mcp add --scope user -t sse serena http://localhost:9121/sse
+```

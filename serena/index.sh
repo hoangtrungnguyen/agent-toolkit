@@ -18,8 +18,11 @@ if [ -z "$projects" ]; then
 fi
 
 echo "Please select a project to index:"
-# Convert the projects string into an array
-mapfile -t project_array <<< "$projects"
+# Convert the projects string into an array for select menu
+project_array=()
+while IFS= read -r line; do
+    [ -n "$line" ] && project_array+=("$line")
+done <<< "$projects"
 
 select project in "${project_array[@]}" "Exit"; do
     if [ "$project" == "Exit" ]; then
@@ -30,7 +33,7 @@ select project in "${project_array[@]}" "Exit"; do
         echo "🚀 Indexing project: $project"
         echo "=========================================="
         # Run the indexing command interactively inside the container
-        docker exec -it serena-container bash -c "source .venv/bin/activate && serena project index /workspace/$project"
+        docker exec -it serena-container bash -c "export PATH=/usr/local/go/bin:/root/go/bin:\$PATH; [ -f /usr/local/go/bin/go ] && source .venv/bin/activate && serena project index /workspace/$project"
         echo "Done!"
         break
     else
