@@ -1,0 +1,19 @@
+services:
+  serena:
+    container_name: serena-container
+    image: ghcr.io/oraios/serena:latest
+    ports:
+      - "9121:9121" # MCP server port
+      - "24282:24282" # Web dashboard port
+    environment:
+      - SERENA_DOCKER=1
+    # To work with projects, you must mount them as volumes:
+    volumes:
+      - ../../Vikki/campaign-management-service:/workspace/campaign-management
+      - ../../Space/grava:/workspace/grava
+      - ../../Space/koban:/workspace/koban
+      - ../../Vikki/digital-platform:/workspace/digital-platform
+      - ../../Vikki/time-deposit-service:/workspace/time-deposit-service
+      - ./start.sh:/start.sh:ro
+    # Add the context for the IDE assistant option:
+    entrypoint: [ "/bin/bash", "/start.sh" ]
