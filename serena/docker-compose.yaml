@@ -7,13 +7,15 @@ services:
       - "24282:24282" # Web dashboard port
     environment:
       - SERENA_DOCKER=1
+      - GOOGLE_APPLICATION_CREDENTIALS=/root/.config/gcloud/application_default_credentials.json
     # To work with projects, you must mount them as volumes:
     volumes:
-      - ../../Vikki/campaign-management-service:/workspace/campaign-management
-      - ../../Space/grava:/workspace/grava
-      - ../../Space/koban:/workspace/koban
-      - ../../Vikki/digital-platform:/workspace/digital-platform
-      - ../../Vikki/time-deposit-service:/workspace/time-deposit-service
+      - ../../../Vikki/campaign-management-service:/workspace/campaign-management
+      - ../../../Space/grava:/workspace/grava
+      - ../../../Space/koban:/workspace/koban
+      - ../../../Vikki/digital-platform:/workspace/digital-platform
+      - ../../../Vikki/time-deposit-service:/workspace/time-deposit-service
       - ./start.sh:/start.sh:ro
+      - ~/.config/gcloud:/root/.config/gcloud:ro
     # Add the context for the IDE assistant option:
     entrypoint: [ "/bin/bash", "/start.sh" ]

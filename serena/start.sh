@@ -7,14 +7,33 @@ source .venv/bin/activate
 # Add Go to PATH
 export PATH="/usr/local/go/bin:$HOME/go/bin:$PATH"
 
-# Install Go if not present
+# Install Go if not present or wrong version
+ARCH=$(uname -m)
+case "$ARCH" in
+    x86_64) GOARCH="amd64" ;;
+    aarch64|arm64) GOARCH="arm64" ;;
+    *) echo "Unsupported architecture: $ARCH"; exit 1 ;;
+esac
+
+REINSTALL_GO=false
 if ! command -v go &> /dev/null; then
-    echo "Installing Go 1.21.0..."
-    curl -LO https://go.dev/dl/go1.21.0.linux-amd64.tar.gz
-    tar -C /usr/local -xzf go1.21.0.linux-amd64.tar.gz
-    rm go1.21.0.linux-amd64.tar.gz
+    REINSTALL_GO=true
 else
-    echo "Go is already installed."
+    CURRENT_GO_VERSION=$(go version | awk '{print $3}')
+    if [[ "$CURRENT_GO_VERSION" != "go1.25.8" ]]; then
+        echo "Found Go $CURRENT_GO_VERSION, but need go1.25.8. Reinstalling..."
+        REINSTALL_GO=true
+    fi
+fi
+
+if [ "$REINSTALL_GO" = true ]; then
+    echo "Installing Go 1.25.8 for $GOARCH..."
+    rm -rf /usr/local/go
+    curl -LO "https://go.dev/dl/go1.25.8.linux-$GOARCH.tar.gz"
+    tar -C /usr/local -xzf "go1.25.8.linux-$GOARCH.tar.gz"
+    rm "go1.25.8.linux-$GOARCH.tar.gz"
+else
+    echo "Go 1.25.8 is already installed."
 fi
 
 # Install gopls if not present

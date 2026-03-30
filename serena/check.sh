@@ -19,7 +19,10 @@ if [ -z "$projects" ]; then
     exit 1
 fi
 
-mapfile -t project_array <<< "$projects"
+project_array=()
+while IFS= read -r line; do
+    [ -n "$line" ] && project_array+=("$line")
+done <<< "$projects"
 
 for project in "${project_array[@]}"; do
     if [ -n "$project" ]; then

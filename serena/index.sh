@@ -19,7 +19,10 @@ fi
 
 echo "Please select a project to index:"
 # Convert the projects string into an array
-mapfile -t project_array <<< "$projects"
+project_array=()
+while IFS= read -r line; do
+    [ -n "$line" ] && project_array+=("$line")
+done <<< "$projects"
 
 select project in "${project_array[@]}" "Exit"; do
     if [ "$project" == "Exit" ]; then
