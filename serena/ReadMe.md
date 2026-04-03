@@ -71,6 +71,20 @@ claude mcp add -t sse serena http://localhost:9121/sse
 claude mcp add --scope user -t sse serena http://localhost:9121/sse
 ```
 
+
+---
+
+## 🔌 4. Activating Projects for AI Assistants
+
+Because your AI assistant (e.g., Claude Code, Cursor) runs on your host machine but Serena runs inside Docker, the assistant might incorrectly try to use your host paths (like `/Users/.../grava`) when calling Serena's tools like `activate_project`. This will result in an error:
+`ProjectNotFoundError - Project '/Users/.../grava' not found`
+
+**How to resolve:**
+When asking your AI assistant to query or analyze a project, simply specify the **container-internal** path. For example:
+> "Please activate the project using the container-internal path: `/workspace/grava`"
+
+This guarantees the assistant uses the correct path that Serena recognizes.
+
 ---
 
 ## 📇 5. Indexing & Re-indexing Projects

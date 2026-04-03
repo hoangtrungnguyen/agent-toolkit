@@ -12,6 +12,7 @@ services:
       - ../../grava:/workspace/grava
       - ../../koban:/workspace/koban
       - ../../server:/workspace/server
+      - ../../takumi-ide:/workspace/takumi-ide
       - ../../unidea-space:/workspace/unidea-space
       - ./start.sh:/start.sh:ro
     # Add the context for the IDE assistant option:
