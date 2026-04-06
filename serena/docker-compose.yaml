@@ -9,11 +9,11 @@ services:
       - SERENA_DOCKER=1
     # To work with projects, you must mount them as volumes:
     volumes:
+      - ../../../Vikki/campaign-management-service:/workspace/campaign-management
       - ../../grava:/workspace/grava
       - ../../koban:/workspace/koban
-      - ../../server:/workspace/server
-      - ../../takumi-ide:/workspace/takumi-ide
-      - ../../unidea-space:/workspace/unidea-space
+      - ../../../Vikki/digital-platform:/workspace/digital-platform
+      - ../../../Vikki/time-deposit-service:/workspace/time-deposit-service
       - ./start.sh:/start.sh:ro
     # Add the context for the IDE assistant option:
     entrypoint: [ "/bin/bash", "/start.sh" ]
