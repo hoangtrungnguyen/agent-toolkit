@@ -8,3 +8,6 @@ csv_loader/*.md
 !csv_loader/sample.csv
 !csv_loader/search_text.py
 !csv_loader/get_headers.py
+.dolt/
+.grava/
+run-claude.sh

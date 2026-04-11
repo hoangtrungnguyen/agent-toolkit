@@ -33,7 +33,8 @@ select project in "${project_array[@]}" "Exit"; do
         echo "🚀 Indexing project: $project"
         echo "=========================================="
         # Run the indexing command interactively inside the container
-        docker exec -it serena-container bash -c "export PATH=/usr/local/go/bin:/root/go/bin:\$PATH; [ -f /usr/local/go/bin/go ] && source .venv/bin/activate && serena project index /workspace/$project"
+        # Run the indexing command interactively inside the container
+        docker exec -it serena-container bash -c "export PATH=/usr/local/go/bin:/root/go/bin:/usr/lib/jvm/default-java/bin:\$PATH; export JAVA_HOME=/usr/lib/jvm/default-java; [ -f /usr/local/go/bin/go ] && source .venv/bin/activate && serena project index /workspace/$project"
         echo "Done!"
         break
     else

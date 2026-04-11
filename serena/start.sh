@@ -25,10 +25,12 @@ if [ -f .venv/bin/activate ]; then
     source .venv/bin/activate
 fi
 
-# Add Go to PATH
-export PATH="/usr/local/go/bin:$HOME/go/bin:$PATH"
+# Add Go and Java to PATH
+export PATH="/usr/local/go/bin:/root/go/bin:/usr/lib/jvm/default-java/bin:$PATH"
+export JAVA_HOME="/usr/lib/jvm/default-java"
 if ! grep -q "/usr/local/go/bin" /etc/profile; then
-    echo 'export PATH="/usr/local/go/bin:$HOME/go/bin:$PATH"' >> /etc/profile
+    echo 'export PATH="/usr/local/go/bin:/root/go/bin:/usr/lib/jvm/default-java/bin:$PATH"' >> /etc/profile
+    echo 'export JAVA_HOME="/usr/lib/jvm/default-java"' >> /etc/profile
 fi
 
 # Install Go if not present or wrong version/arch
@@ -67,6 +69,15 @@ if ! command -v gopls &> /dev/null; then
     go install golang.org/x/tools/gopls@latest
 else
     echo "gopls is already installed."
+fi
+
+# Install Java (needed for Java/JVM projects)
+if ! command -v java &> /dev/null; then
+    echo "Installing default-jdk..."
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get install -y default-jdk
+else
+    echo "Java is already installed."
 fi
 
 # Install Erlang if not present
