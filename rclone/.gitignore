@@ -1,0 +1,7 @@
+*.conf
+*.json
+.rclone*
+!GCP_SETUP.md
+!RCLONE_CONFIG.md
+!README.md
+!RCLONE_2WAY_SYNC.md

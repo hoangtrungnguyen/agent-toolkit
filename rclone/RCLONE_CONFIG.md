@@ -22,17 +22,19 @@ Follow the interactive prompts:
 11. **Keep this remote**: `y` (Yes)
 12. **Quit config**: `q`
 
-## Phase 2: Testing the Connection
-Run this to see the files on your Google Drive:
+## Phase 2: Finding your single folder
+If you only want to sync a specific folder from Google Drive, first list your top-level folders to find the exact name:
 ```bash
-rclone ls gdrive: --config ./rclone.conf
+rclone lsd gdrive: --config ./rclone.conf
 ```
 
-## Phase 3: Syncing
-To download everything from your drive into this project folder:
+## Phase 3: Syncing a Specific Folder
+To download everything from **one specific folder** on your drive into this project folder:
 ```bash
-rclone sync gdrive:/ . --config ./rclone.conf --progress
+rclone sync "gdrive:FolderName" . --config ./rclone.conf --progress
 ```
+
+*Replace `FolderName` with the name you found in Phase 2.*
 
 > [!WARNING]
 > The `sync` command makes the destination *exactly* match the source. 
